@@ -1,0 +1,60 @@
+{
+	"questions" : [
+		{
+			"question" : "Mihin tarkoitukseen käytät tietokonetta?",
+			"answers" : [
+				{
+					"answer" : "Käytän tietokonetta opiskeluun.",
+					"subquestions" : []
+				},
+				{
+					"answer" : "Käytän tietokonetta työkseni.",
+					"subquestions" : [
+						{
+							"question" : "Mitä teet tietokoneella työksesi?",
+							"answers" : [
+								{
+									"answer" : "Sovelluskehitystä",
+									"subquestions" : []
+								},
+								{
+									"answer" : "Piirrän tietokone grafiikkaa",
+									"subquestions" : []
+								},
+								{
+									"answer" : "3D mallinnusta",
+									"subquestions" : []
+								}
+							]
+						}
+					]
+				},
+				{
+					"answer" : "Käytän tietokonetta pelaamiseen.",
+					"subquestions" : []
+				},
+				{
+					"answer" : "Käytän tietokonetta perusasioiden hoitamiseen.",
+					"subquestions" : []
+				}
+			]
+		},
+		{
+			"question" : "Kuinka hyvä olet käyttämään tietokonetta?",
+			"answers" : [
+				{
+					"answer" : "Tarvitsen usein apua paremmalta tietokoneen käyttäjältä.",
+					"subquestions" : []
+				},
+				{
+					"answer" : "Pystyn itse etsimään ratkaisuja tietokone ongelmiin.",
+					"subquestions" : []
+				},
+				{
+					"answer" : "Pystyn itse ratkaisemaan tietokone ongelmia.",
+					"subquestions" : []
+				}
+			]
+		}
+	]
+}
