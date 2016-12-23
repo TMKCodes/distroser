@@ -26,7 +26,24 @@
 									"subquestions" : []
 								}
 							]
-						}
+						},
+						{
+							"question" : "Mitä teet tietokoneella työksesi?",
+							"answers" : [
+								{
+									"answer" : "Sovelluskehitystä",
+									"subquestions" : []
+								},
+								{
+									"answer" : "Piirrän tietokone grafiikkaa",
+									"subquestions" : []
+								},
+								{
+									"answer" : "3D mallinnusta",
+									"subquestions" : []
+								}
+							]
+						} 
 					]
 				},
 				{

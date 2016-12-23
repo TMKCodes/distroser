@@ -1,3 +1,11 @@
+Array.prototype.insert = function(index) {
+    index = Math.min(index, this.length);
+    arguments.length > 1
+        && this.splice.apply(this, [index, 0].concat([].pop.call(arguments)))
+        && this.insert.apply(this, arguments);
+    return this;
+};
+
 (function($) {
 	$.createWithID = function(tag, id) {
 		var element = document.createElement(tag.toLowerCase());
@@ -19,20 +27,6 @@
 		}
 		return $(label);
 	}
-	$.createRadioInput = function(id, className, name, text, value) {
-		var input = document.createElement("input");
-		input.type = "radio"
-		if(typeof(id) != "undefined") input.id = id;
-		if(typeof(className) != "undefined") input.className = className;
-		if(typeof(name) != "undefined") input.name = name;
-		if(typeof(value) != "undefined") input.value = value;
-
-		if(typeof(text) != "undefined") {
-			var text = document.createTextNode(text);
-			input.appendChild(text);
-		}
-		return $(input);
-	}
 	$.createSubmit = function(id, className, value) {
 		var input = document.createElement("input");
 		input.type = "submit";
@@ -40,7 +34,6 @@
 		if(typeof(className) != "undefined") input.className = className;
 		if(typeof(value) != "undefined") input.value = value;
 		return $(input);
-
 	}
 }(jQuery));
 
@@ -49,9 +42,8 @@ var results = [];
 var questions;
 
 function LoadQuestion(question) {
-	console.log(question);
 	$("#selection").empty();
-	$("#selection").append($.createWithID("h1", "question-header"));
+	$("#selection").append($.createWithID("h2", "question-header"));
 	$("#question-header").text(question.question);
 	$("#selection").append($.createWithID("form", "answers"));
 	for(var x = 0; x < question.answers.length; x++) {
@@ -67,28 +59,22 @@ function LoadQuestion(question) {
 				answers.push($(this).prop("id"));
 			}
 		});
-		console.log(answers);
 		if(answers.length > 0) {
 			var result = { question : $("#question-header").text(), answers : answers };
 			results.push(result);
-			// load sub questions
+			// load first subquestion if there is one.
 			for(var y = 0; y < answers.length; y++) {
-				console.log(answers[y]);
 				for(var x = 0; x < question.answers.length; x++) {
-					console.log(question.answers[x]);
 					var answerID = question.answers[x].answer.replace(/[^a-ä0-9]/gi, '_');
-					console.log(answerID + " == " + answers[y]);
 					if(answerID == answers[y]) {
 						for(var d = 0; d < question.answers[x].subquestions.length; d++) {
-							LoadQuestion(question.answers[x].subquestions[d]);
-							return;
+							console.log(index + 1 + d);
+							questions.insert(index + 1 + d, question.answers[x].subquestions[d]);
 						}
 					}
 				}	
 			}
-			// load next question
 			var tmpIndex = index + 1;
-			console.log(questions.length + " " + tmpIndex);
 			if(questions.length > tmpIndex) {
 				index = tmpIndex;
 				LoadQuestion(questions[index]);
@@ -99,6 +85,9 @@ function LoadQuestion(question) {
 }
 
 $(document).ready(function() {
+	if($(window).width() < 720) {
+		$("#wrapper").css("width", "100%");
+	}
 	$.getJSON("questions.json", function(data) {
 		questions = data.questions;
 		LoadQuestion(questions[index]);
