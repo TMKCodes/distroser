@@ -10,6 +10,7 @@ html {
 body {
 	margin: 0px;
 	padding: 0px;
+	background-image: url('pictures/sayagata-400px/sayagata-400px.png');
 }
 
 #wrapper {
@@ -31,4 +32,18 @@ body {
 
 input[type="checkbox"] {
 	margin: 5px;
+}
+
+p {
+	font-weight: 700;
+}
+
+input[type="submit"] {
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+button {
+	width: 100%;
+	margin-bottom: 5px;
 }

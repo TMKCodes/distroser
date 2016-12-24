@@ -5,7 +5,34 @@
 			"answers" : [
 				{
 					"answer" : "Käytän tietokonetta opiskeluun.",
-					"subquestions" : []
+					"subquestions" : [
+						{
+							"question" : "Tarvitsetko Adobe tuotteita?",
+							"answers" : [
+								{
+									"answer" : "Kyllä",
+									"subquestions" : []
+								},
+								{
+									"answer" : "En",
+									"subquestions" : []
+								}
+							] 
+						},
+						{
+							"question" : "Tarvitsetko Microsoft tuotteita?",
+							"answers" : [
+								{
+									"answer" : "Kyllä",
+									"subquestions" : []
+								},
+								{
+									"answer" : "En",
+									"subquestions" : []
+								}
+							] 
+						}
+					]
 				},
 				{
 					"answer" : "Käytän tietokonetta työkseni.",
@@ -28,27 +55,50 @@
 							]
 						},
 						{
-							"question" : "Mitä teet tietokoneella työksesi?",
+							"question" : "Tarvitsetko Adobe tuotteita?",
 							"answers" : [
 								{
-									"answer" : "Sovelluskehitystä",
+									"answer" : "Kyllä",
 									"subquestions" : []
 								},
 								{
-									"answer" : "Piirrän tietokone grafiikkaa",
-									"subquestions" : []
-								},
-								{
-									"answer" : "3D mallinnusta",
+									"answer" : "En",
 									"subquestions" : []
 								}
-							]
+							] 
+						},
+						{
+							"question" : "Tarvitsetko Microsoft tuotteita?",
+							"answers" : [
+								{
+									"answer" : "Kyllä",
+									"subquestions" : []
+								},
+								{
+									"answer" : "En",
+									"subquestions" : []
+								}
+							] 
 						} 
 					]
 				},
 				{
 					"answer" : "Käytän tietokonetta pelaamiseen.",
-					"subquestions" : []
+					"subquestions" : [
+						{
+							"question" : "Oletko tietoinen, että GNU/Linuxille on vähemmän Steam pelejä?",
+							"answers" : [
+								{
+									"answer" : "Kyllä",
+									"subquestions" : []
+								},
+								{
+									"answer" : "En",
+									"subquestions" : []
+								}
+							]
+						}
+					]
 				},
 				{
 					"answer" : "Käytän tietokonetta perusasioiden hoitamiseen.",
@@ -69,6 +119,36 @@
 				},
 				{
 					"answer" : "Pystyn itse ratkaisemaan tietokone ongelmia.",
+					"subquestions" : []
+				}
+			]
+		},
+		{
+			"question" : "Haluatko käyttöjärjestelmän olevan muokattavissa asennuksen aikana?",
+			"answers" : [
+				{
+					"answer" : "Haluan jakelun kertovan minulle mitä minun pitäisi käyttää.",
+					"subquestions" : []
+				},
+				{
+					"answer" : "Haluan itse päättää mitä haluan koneelleni asentaa.",
+					"subquestions" : []
+				}
+			]
+		},
+		{
+			"question" : "Mihin haluat GNU/Linux distribuution asentaa?",
+			"answers" : [
+				{
+					"answer" : "Tietokoneeni kovalevylle.",
+					"subquestions" : []
+				},
+				{
+					"answer" : "USB tikulle.",
+					"subquestions" : []
+				},
+				{ 
+					"answer" : "Haluan ensin yrittää GNU/Linux distribuution käyttämistä linuxilla.",
 					"subquestions" : []
 				}
 			]
