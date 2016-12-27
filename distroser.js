@@ -73,17 +73,20 @@ var distributions;
 var scores = [];
 
 function CheckResults() {
+	console.log(distributions);
 	for(var a = 0; a < distributions.length; a++) {
 		distributions[a].score = 0;
-		distributions[a ].maximum = 0;
+		distributions[a].maximum = 0;
+		console.log(distributions[a]);
 		for(var b = 0; b < distributions[a].questions.length; b++) {
 			for(var c = 0; c < results.length; c++) {
+				console.log(distributions[a].questions[b].question + " == " + results[c].question);
 				if(distributions[a].questions[b].question == results[c].question) {
-					for(var d = 0; d < distributions[d].question[b].answers.length; d++) {
-						distributions[a].maximum++; 
+					for(var d = 0; d < distributions[a].questions[b].answers.length; d++) {
+						distributions[a].maximum += 1; 
 						for(var e = 0; e < results[c].answers.length; e++) {
-							if(distributions[d].question[b].answers[d].replace(/[^a-ä0-9]/gi, '_') == results[c].answers[d]) {
-								distributions[a].score;
+							if(distributions[a].questions[b].answers[d].replace(/[^a-ä0-9]/gi, '_') == results[c].answers[d]) {
+								distributions[a].score += 1;
 							}
 						}
 					}
@@ -91,6 +94,7 @@ function CheckResults() {
 			}
 		}
 	}
+	console.log(distributions);
 }
 
 function LoadQuestion(question) {
@@ -146,6 +150,16 @@ function LoadQuestion(question) {
 		}
 	});
 	$("#answers").append($.createButton("answer-end", "btn btn-success btn-block", "Katso tulokset"));
+	$("#answer-end").click(function(evt) {
+		evt.preventDefault();
+		CheckResults();
+		index = 0;
+		results = [];
+		$.getJSON("questions.json", function(data) {
+			questions = data.questions;
+		});
+		LoadSplash();
+	});
 	$("#answers").append($.createButton("answer-stop", "btn btn-danger btn-block", "Keskeytä testi"));
 	$("#answer-stop").click(function(evt) {
 		evt.preventDefault();
