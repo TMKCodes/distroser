@@ -70,27 +70,35 @@ var index = 0;
 var results = [];
 var questions;
 var distributions;
-var scores = [];
 
 function CheckResults() {
-	console.log(distributions);
 	for(var a = 0; a < distributions.length; a++) {
 		distributions[a].score = 0;
 		distributions[a].maximum = 0;
-		console.log(distributions[a]);
 		for(var b = 0; b < distributions[a].questions.length; b++) {
 			for(var c = 0; c < results.length; c++) {
-				console.log(distributions[a].questions[b].question + " == " + results[c].question);
 				if(distributions[a].questions[b].question == results[c].question) {
 					for(var d = 0; d < distributions[a].questions[b].answers.length; d++) {
 						distributions[a].maximum += 1; 
 						for(var e = 0; e < results[c].answers.length; e++) {
-							if(distributions[a].questions[b].answers[d].replace(/[^a-ä0-9]/gi, '_') == results[c].answers[d]) {
+							if(distributions[a].questions[b].answers[d].replace(/[^a-ä0-9]/gi, '_') == results[c].answers[e]) {
+								//delete results[c].answers[e];
 								distributions[a].score += 1;
 							}
 						}
 					}
 				}
+			}
+		}
+		distributions[a].percentage = distributions[a].score / distributions[a].maximum;
+	}
+	var length = distributions.length;
+	for(var i = 0; i < length; i++) {
+		for(var j = 0; j < (length - i - 1); j++) {
+			if(distributions[j].percentage > distributions[j+1].percentage) {
+				var tmp = distributions[j];
+				distributions[j] = distributions[j+1];
+				distributions[j+1] = tmp;
 			}
 		}
 	}
@@ -117,7 +125,6 @@ function LoadQuestion(question) {
 		});
 		var result = { question : $("#question-header").text(), answers : answers };
 		results.push(result);
-		console.log(results);
 		// load subquestions based on results if there are them.
 		if(answers.length > 0) {
 			for(var y = 0; y < answers.length; y++) {
@@ -137,6 +144,8 @@ function LoadQuestion(question) {
 			index = tmpIndex;
 			LoadQuestion(questions[index]);
 			return;
+		} else {
+			CheckResults();
 		}
 	});
 	$("#answers").append($.createButton("answer-back", "btn btn-warning btn-block", "Edellinen"));
@@ -152,13 +161,15 @@ function LoadQuestion(question) {
 	$("#answers").append($.createButton("answer-end", "btn btn-success btn-block", "Katso tulokset"));
 	$("#answer-end").click(function(evt) {
 		evt.preventDefault();
-		CheckResults();
-		index = 0;
-		results = [];
-		$.getJSON("questions.json", function(data) {
-			questions = data.questions;
+		var answers = [];
+		$(".answer_inputs").each(function() {
+			if($(this).prop("checked") == true) {
+				answers.push($(this).prop("id"));
+			}
 		});
-		LoadSplash();
+		var result = { question : $("#question-header").text(), answers : answers };
+		results.push(result);
+		CheckResults();
 	});
 	$("#answers").append($.createButton("answer-stop", "btn btn-danger btn-block", "Keskeytä testi"));
 	$("#answer-stop").click(function(evt) {
