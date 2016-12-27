@@ -1,0 +1,34 @@
+{
+	"distributions" : [
+		{
+			"distribution" : "Linux Mint",
+			"website" : "https://www.linuxmint.com",
+			"logo" : "https://www.linuxmint.com/img/logo.png",
+			"text" : "Linux Mint on Ubuntu-pohjainen jakelu, jonka tavoitteena on tarjota täydellisempi out-of-the-box kokemus lisäämällä lisäosia, koodekkeja, DVD-toiston tuen, Javan ja muita komponentteja. Se lisää myös mukautetun työpöydän ja valikoita, useita ainutlaatuisia asetuksien muokkaus työkaluja ja web-pohjaisen pakettien asennusohjelman. Linux Mint on yhteensopiva Ubuntun asennuslähteiden kanssa.",
+			"questions" : [
+				{
+					"question" : "Mihin haluat GNU/Linux distribuution asentaa?",
+					"answers" : [
+						"Tietokoneeni kovalevylle.",
+						"Haluan ensin yrittää GNU/Linux distribuution käyttämistä linuxilla."
+					]
+				}
+			]
+		},
+		{
+			"distribution" : "Debian",
+			"website" : "https://www.debian.org/",
+			"logo" : "https://www.debian.org/Pics/openlogo-50.png",
+			"text" : "",
+			"questions" : [
+				{
+					"question" : "Mihin haluat GNU/Linux distribuution asentaa?",
+					"answers" : [
+						"Tietokoneeni kovalevylle.",
+						"Haluan ensin yrittää GNU/Linux distribuution käyttämistä linuxilla."
+					]
+				}
+			]
+		}
+	]
+}
