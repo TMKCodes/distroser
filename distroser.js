@@ -69,6 +69,29 @@ Array.prototype.insert = function(index) {
 var index = 0;
 var results = [];
 var questions;
+var distributions;
+var scores = [];
+
+function CheckResults() {
+	for(var a = 0; a < distributions.length; a++) {
+		distributions[a].score = 0;
+		distributions[a ].maximum = 0;
+		for(var b = 0; b < distributions[a].questions.length; b++) {
+			for(var c = 0; c < results.length; c++) {
+				if(distributions[a].questions[b].question == results[c].question) {
+					for(var d = 0; d < distributions[d].question[b].answers.length; d++) {
+						distributions[a].maximum++; 
+						for(var e = 0; e < results[c].answers.length; e++) {
+							if(distributions[d].question[b].answers[d].replace(/[^a-ä0-9]/gi, '_') == results[c].answers[d]) {
+								distributions[a].score;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
 function LoadQuestion(question) {
 	$("#selection").empty();
@@ -79,7 +102,7 @@ function LoadQuestion(question) {
 		var answerID = question.answers[x].answer.replace(/[^a-ä0-9]/gi, '_');
 		$("#answers").append($.createCheckboxInput(answerID, "answer_inputs", "answers", question.answers[x].answer, question.answers[x].answer));
 	}
-	$("#answers").append($.createSubmit("answer-submit", "", "Seuraava"));
+	$("#answers").append($.createSubmit("answer-submit", "btn btn-primary btn-block", "Seuraava"));
 	$("#answer-submit").click(function(evt) {
 		evt.preventDefault();
 		var answers = [];
@@ -90,6 +113,7 @@ function LoadQuestion(question) {
 		});
 		var result = { question : $("#question-header").text(), answers : answers };
 		results.push(result);
+		console.log(results);
 		// load subquestions based on results if there are them.
 		if(answers.length > 0) {
 			for(var y = 0; y < answers.length; y++) {
@@ -111,7 +135,7 @@ function LoadQuestion(question) {
 			return;
 		}
 	});
-	$("#answers").append($.createButton("answer-back", "", "Edellinen"));
+	$("#answers").append($.createButton("answer-back", "btn btn-warning btn-block", "Edellinen"));
 	$("#answer-back").click(function(evt) {
 		evt.preventDefault();
 		var tmpIndex = index - 1;
@@ -121,7 +145,8 @@ function LoadQuestion(question) {
 			LoadQuestion(questions[index]);
 		}
 	});
-	$("#answers").append($.createButton("answer-stop", "", "Keskeytä testi"));
+	$("#answers").append($.createButton("answer-end", "btn btn-success btn-block", "Katso tulokset"));
+	$("#answers").append($.createButton("answer-stop", "btn btn-danger btn-block", "Keskeytä testi"));
 	$("#answer-stop").click(function(evt) {
 		evt.preventDefault();
 		index = 0;
@@ -137,7 +162,7 @@ function LoadSplash() {
 	$("#selection").empty();
 	$("#selection").append($.createParagraph("", "", "Tervetuloa. Olet saattanut kuulla käyttöjärjestelmästä nimeltä Linux ja huomannut niitä olevan paljon erilaisia kuten Mint, Debian ja Ubuntu. Distroserin tarkoitus on auttaa sinua valitsemaan sinulle sopiva GNU/Linux jakelu."));
 	$("#selection").append($.createParagraph("", "", "Distroser on testi jonka avulla voimme ehdottaa sinulle GNU/Linux jakelua. Kysymme yhden kysymyksen kerralla ja voit keskeyttää testin koska tahansa tai saada tulokset."));
-	$("#selection").append($.createButton("start-questions", "", "Aloita testi"));
+	$("#selection").append($.createButton("start-questions", "btn btn-success btn-block", "Aloita testi"));
 	$("#start-questions").click(function(evt) {
 		evt.preventDefault();
 		LoadQuestion(questions[index]);
@@ -160,6 +185,9 @@ $(document).ready(function() {
 	}
 	$.getJSON("questions.json", function(data) {
 		questions = data.questions;
+	});
+	$.getJSON("distributions.json", function(data) {
+		distributions = data.distributions;
 	});
 	LoadSplash();
 });
