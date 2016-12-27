@@ -19,6 +19,43 @@ Array.prototype.insert = function(index) {
 		if(typeof(id) != "undefined") element.id = id;
 		return $(element);
 	}
+	$.createHeader = function(id, className, level, text) {
+		var header = document.createElement("h" + level);
+		if(typeof(id) != "undefined") header.id = id;
+		if(typeof(className) != "undefined") header.className = className;
+		if(typeof(text) != "undefined") {
+			var text = document.createTextNode(text);
+			header.appendChild(text);
+		}
+		return $(header);
+	}
+	$.createLink = function(id, className, href, text) {
+		var a = document.createElement("a");
+		if(typeof(id) != "undefined") a.id = id;
+		if(typeof(className) != "undefined") a.className = className;
+		if(typeof(href) != "undefined") a.href = href;
+		if(typeof(text) != "undefined") {
+			var text = document.createTextNode(text);
+			a.appendChild(text);
+		}
+		return $(a);
+	}
+	$.createDiv = function(id, className) {
+		var div = document.createElement("div");
+		if(typeof(id) != "undefined") div.id = id;
+		if(typeof(className) != "undefined") div.className = className;
+		return $(div);
+	}
+	$.createImage = function(id, className, src, alt, height, width) {
+		var img = document.createElement("img");
+		if(typeof(id) != "undefined") img.id = id;
+		if(typeof(className) != "undefined") img.className = className;
+		if(typeof(src) != "undefined") img.src = src;
+		if(typeof(alt) != "undefined") img.alt = alt;
+		if(typeof(height) != "undefined") img.height = height;
+		if(typeof(width) != "undefined") img.width = width;
+		return $(img);
+	}
 	$.createParagraph = function(id, className, text) {
 		var paragraph = document.createElement("p");
 		if(typeof(id) != "undefined") paragraph.id = id;
@@ -72,17 +109,20 @@ var questions;
 var distributions;
 
 function CheckResults() {
+	// Do result checking
 	for(var a = 0; a < distributions.length; a++) {
 		distributions[a].score = 0;
 		distributions[a].maximum = 0;
 		for(var b = 0; b < distributions[a].questions.length; b++) {
 			for(var c = 0; c < results.length; c++) {
 				if(distributions[a].questions[b].question == results[c].question) {
+					distributions[a].questions[b].answered = [];
 					for(var d = 0; d < distributions[a].questions[b].answers.length; d++) {
 						distributions[a].maximum += 1; 
 						for(var e = 0; e < results[c].answers.length; e++) {
 							if(distributions[a].questions[b].answers[d].replace(/[^a-ä0-9]/gi, '_') == results[c].answers[e]) {
 								//delete results[c].answers[e];
+								distributions[a].questions[b].answered.push(results[c].answers[e]);
 								distributions[a].score += 1;
 							}
 						}
@@ -90,8 +130,12 @@ function CheckResults() {
 				}
 			}
 		}
-		distributions[a].percentage = distributions[a].score / distributions[a].maximum;
+		distributions[a].percentage = distributions[a].score / distributions[a].maximum * 100;
+		if(distributions[a].percentage == NaN) {
+			distributions[a].percentage == 0;
+		}
 	}
+	// Do sorting
 	var length = distributions.length;
 	for(var i = 0; i < length; i++) {
 		for(var j = 0; j < (length - i - 1); j++) {
@@ -103,6 +147,36 @@ function CheckResults() {
 		}
 	}
 	console.log(distributions);
+}
+
+function LoadResults() {
+	$("#selection").empty();
+	var length = 5; 
+	if(distributions.length < length) {
+		length = distributions.length;
+	}
+	for(var i = 0; i < length; i++) {
+		var div = $.createDiv("", "distributions");
+		div.append($.createHeader("", "distributions-header", "2", distributions[i].percentage + " " + distributions[i].distribution));
+		div.append($.createImage("", "img-responsive", distributions[i].logo, distributions[i].distribution));
+		div.append($.createLink("", "distributions-link", distributions[i].website, distributions[i].distribution));
+		div.append($.createParagraph("", "distributions-text", distributions[i].text));
+		$("#selection").append(div);
+	}
+	
+	$("#selection").append($.createButton("answer-stop", "btn btn-danger btn-block", "Palaa alkuun"));
+	$("#answer-stop").click(function(evt) {
+		evt.preventDefault();
+		index = 0;
+		results = [];
+		$.getJSON("questions.json", function(data) {
+			questions = data.questions;
+		});
+		$.getJSON("distributions.json", function(data) {
+			distributions = data.distributions;
+		});
+		LoadSplash();
+	});
 }
 
 function LoadQuestion(question) {
@@ -146,6 +220,7 @@ function LoadQuestion(question) {
 			return;
 		} else {
 			CheckResults();
+			LoadResults();
 		}
 	});
 	$("#answers").append($.createButton("answer-back", "btn btn-warning btn-block", "Edellinen"));
@@ -170,6 +245,7 @@ function LoadQuestion(question) {
 		var result = { question : $("#question-header").text(), answers : answers };
 		results.push(result);
 		CheckResults();
+		LoadResults();
 	});
 	$("#answers").append($.createButton("answer-stop", "btn btn-danger btn-block", "Keskeytä testi"));
 	$("#answer-stop").click(function(evt) {
@@ -178,6 +254,9 @@ function LoadQuestion(question) {
 		results = [];
 		$.getJSON("questions.json", function(data) {
 			questions = data.questions;
+		});
+		$.getJSON("distributions.json", function(data) {
+			distributions = data.distributions;
 		});
 		LoadSplash();
 	});
